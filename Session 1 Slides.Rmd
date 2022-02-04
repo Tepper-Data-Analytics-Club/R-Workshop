@@ -1,0 +1,101 @@
+---
+title: "Session 1 - R Basics"
+author: "Erik Steeb"
+date: "2/3/2022"
+output:
+  beamer_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Agenda
+
+- 9am - 12pm : Session 1: R Basics
+- 12pm - 1pm : Lunch
+- 1pm - 3pm : Session 2: Practical Application
+
+## Session 1 Agenda (1/3)
+
+- What is R? R Studio? R Markdown?
+- Tidyverse
+- Basic R Syntax
+
+**BREAK**
+
+## Session 1 Agenda (2/3)
+
+- R Datatypes
+- R Functions
+
+**BREAK**
+
+## Session 1 Agenda (3/3)
+- R for data analysis
+- Data visualization
+
+**LUNCH**
+
+## What is R?
+
+R is an integrated suite of software facilities for data manipulation, calculation and graphical display. It includes
+
+- an effective data handling and storage facility,
+- a suite of operators for calculations on arrays, in particular matrices,
+- a large, coherent, integrated collection of intermediate tools for data analysis,
+- graphical facilities for data analysis and display either on-screen or on hardcopy, and
+- a well-developed, simple and effective programming language which includes conditionals, loops, user-defined recursive functions and input and output facilities.
+
+Source: https://www.r-project.org/about.html
+
+## What is R? (continued)
+
+- Free as in beer
+- Free as in speech
+- An interpreted language
+- Extendable with packages (https://cran.r-project.org/)
+
+## What is RStudio?
+- An R IDE
+- Free as in beer
+- Free(ish) as in speech
+- A company that maintains & promotes major R packages
+
+## What is R Markdown?
+- Necessary for Fallaw's elective
+- Jupyter Notebooks for R
+- A way to narrate an analytics process 
+- Capable of producing slide decks
+
+## Tidyverse Overview
+- Collection of packages that "share an underlying design philosophy, grammar, and data structures."
+- Tidy data: 
+-- A standard method of displaying a multivariate set of data is in the form of a data matrix in which rows correspond to sample individuals and columns to variables, so that the entry in the ith row and jth column gives the value of the jth variate as measured or observed on the ith individual.
+-- Each variable is a column, each observation is a row
+
+## R Basics: "Hello world"
+
+```{r hello, echo=TRUE}
+print("Hello World")
+
+```
+
+## R Basics: Variables, basic operations
+
+```{r variable, echo=TRUE}
+a <- 3
+b <- 2
+c <- a+b
+print(c)
+```
+```{r, echo=TRUE}
+
+d <- a^b
+print(d)
+
+```
+
+## R Basics: 
+
+
