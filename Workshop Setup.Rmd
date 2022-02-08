@@ -1,0 +1,53 @@
+---
+title: "Workshop Setup"
+author: "Erik Steeb"
+date: "2/8/2022"
+output: pdf_document
+---
+
+Thank you again for signing up for the R workshop! This document will serve as a quick introductiont to R Markdown and help ensure that you are set up properly to follow along in the actual class.
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=TRUE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## R Packages
+
+Packages are a way to extend R's functionality outside the core features of the language. This can be something as simple as allowing R to read from Excel documents (readxl) to an entire extension of R's handling of data (tidyverse - which is, itself, a collection of other packages). We'll need a few of these non-standard packages from the Comprehensive R Archive Network (CRAN). This is a curated collection of packages that meet high standards of usability, design, and security and they can be downloaded directly through the R interface using a function in the base language, install.packages(). Please note the single quotation mark around each package name (double quotations work too) - these are required since the text in the function is passed to the repository to search for a package with that name.
+
+I've included a link in an inline comment to each package's page on CRAN in case you want to check the documentation before downloading.
+
+Required packages:
+-readxl  This will allow us to read from Excel files  https://cran.r-project.org/web/packages/readxl/index.html
+-writexl This will allow us to write Excel files  https://cran.r-project.org/web/packages/writexl/index.html
+-psych   This package includes some descriptive statistics functions that are useful https://cran.r-project.org/web/packages/psych/index.html
+-xts     This package extends R's ability to work with time series data  https://cran.r-project.org/web/packages/xts/index.html 
+-tidyverse  This is a collection of packages that extends many of base R's features, from making it easier to work with data to enabling you to create better graphics than the base R plotting system. https://cran.r-project.org/web/packages/tidyverse/index.html 
+
+
+```{r install}
+required_packages <- c('readxl','writexl','psych','xts','tidyverse')
+
+install.packages(required_packages, repos = "http://cran.us.r-project.org")
+
+```
+
+You are also able to download packages from GitHub in a slightly more complicated way. ONLY DO THIS FOR PACKAGES YOU TRUST. Packages on CRAN are vetted and guaranteed to work within R. Any interactions between base R and CRAN packages are required to be documented. There is no quality control for GitHub packages. 
+
+You will need to do this in Mini 4 for Statistical Decision Making.

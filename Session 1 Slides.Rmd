@@ -24,14 +24,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **BREAK**
 
-## Session 1 Agenda (2/3)
-
 - R Datatypes
 - R Functions
 
 **BREAK**
 
-## Session 1 Agenda (3/3)
 - R for data analysis
 - Data visualization
 
@@ -83,6 +80,8 @@ print("Hello World")
 
 ## R Basics: Variables, basic operations
 
+Use normal math operators. Use <- to assign variables
+
 ```{r variable, echo=TRUE}
 a <- 3
 b <- 2
@@ -96,6 +95,29 @@ print(d)
 
 ```
 
-## R Basics: 
 
+## R Basics: Equals Sign
+You can use `=` to assign variables, but `<-` is standard
+```{r equality, echo=TRUE}
+
+a = 1
+print(a)
+
+```
+Getting in the habit of using `=` can lead to problems when using conditional statements.
+
+## R Basics: Data Types
+Like most other programming languages, R has a number of datatypes. We've already looked at numeric data in our previous examples. Other basic data types are:
+- Character
+- Integer (special case of numeric)
+- Logical
+- Complex (special case of numeric)
+
+## R Basics: Data Structures
+- Vectors: Most common structure, contains a series of elements
+-- Created using vector() 
+-- Also created using c() function (more common)
+- Matrix: Vector with dimensions
+- List: 
+- Data Frame
 
