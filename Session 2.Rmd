@@ -1,0 +1,35 @@
+---
+title: "Session 2 - Self-Directed"
+author: "Erik Steeb"
+date: "2/10/2022"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Session 2 Overview
+
+In this half of the workshop, we'll be working individually or in small groups on a provided dataset to apply what we learned in the first half of class. We'll be using a dataset from the [UC Irvine Machine Learning Repository] (https://archive.ics.uci.edu/ml/index.php). Specifically, we'll be looking at two .csv files with data about the physical characteristics and expert quality ratings of [white and red Vinho Verde] (https://archive.ics.uci.edu/ml/datasets/Wine+Quality).
+
+If you are using the git repo, the files are in the datasets folder and can be loaded using the code below. If not, modify it to load the data yourself.
+
+```{r load_data}
+red_df <- read.csv('datasets/winequality-red.csv')
+white_df <- read.csv('datasets/winequality-white.csv')
+
+
+```
+
+
+We'll also load the tidyverse set of packages so we're able to manipulate the data:
+
+```{r}
+
+library(tidyverse)
+
+```
+
+# Question: What factors have the biggest impact on percieved wine quality? Are these factors the same for white and red wine?
