@@ -1,40 +1,43 @@
 ---
 title: "Session 1 - R Basics"
 author: "Erik Steeb"
-date: "2/3/2022"
+date: "2/10/2022"
 output:
-  beamer_presentation: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Agenda
+# Agenda
 
 - 9am - 12pm : Session 1: R Basics
 - 12pm - 1pm : Lunch
 - 1pm - 3pm : Session 2: Practical Application
 
-## Session 1 Agenda (1/3)
+## Session 1 Agenda
 
 - What is R? R Studio? R Markdown?
 - Tidyverse
 - Basic R Syntax
+- R Datatypes
 
 **BREAK**
 
-- R Datatypes
+- Dataframes
+- Data visualization
 - R Functions
 
 **BREAK**
 
-- R for data analysis
-- Data visualization
+- R for data Analysis
+- Classification
+
 
 **LUNCH**
 
-## What is R?
+# What is R?
 
 R is an integrated suite of software facilities for data manipulation, calculation and graphical display. It includes
 
@@ -43,15 +46,12 @@ R is an integrated suite of software facilities for data manipulation, calculati
 - a large, coherent, integrated collection of intermediate tools for data analysis,
 - graphical facilities for data analysis and display either on-screen or on hardcopy, and
 - a well-developed, simple and effective programming language which includes conditionals, loops, user-defined recursive functions and input and output facilities.
-
-Source: https://www.r-project.org/about.html
-
-## What is R? (continued)
-
 - Free as in beer
 - Free as in speech
 - An interpreted language
 - Extendable with packages (https://cran.r-project.org/)
+
+Source: https://www.r-project.org/about.html
 
 ## What is RStudio?
 - An R IDE
@@ -63,7 +63,8 @@ Source: https://www.r-project.org/about.html
 - Necessary for Fallaw's elective
 - Jupyter Notebooks for R
 - A way to narrate an analytics process 
-- Capable of producing slide decks
+- Capable of producing slide decks, pdfs, or html documents
+- The way you're currently viewing this workshop
 
 ## Tidyverse Overview
 - Collection of packages that "share an underlying design philosophy, grammar, and data structures."
@@ -71,7 +72,9 @@ Source: https://www.r-project.org/about.html
 -- A standard method of displaying a multivariate set of data is in the form of a data matrix in which rows correspond to sample individuals and columns to variables, so that the entry in the ith row and jth column gives the value of the jth variate as measured or observed on the ith individual.
 -- Each variable is a column, each observation is a row
 
-## R Basics: "Hello world"
+# R Basics: 
+
+## "Hello world"
 
 ```{r hello, echo=TRUE}
 print("Hello World")
@@ -97,6 +100,7 @@ print(d)
 
 
 ## R Basics: Equals Sign
+
 You can use `=` to assign variables, but `<-` is standard
 ```{r equality, echo=TRUE}
 
@@ -104,9 +108,18 @@ a = 1
 print(a)
 
 ```
-Getting in the habit of using `=` can lead to problems when using conditional statements.
+Getting in the habit of using `=` can lead to problems when using conditional statements. Conditional statements use "==" to evaluate logic. 
+
+```{r , echo=TRUE}
+
+b = 1
+if (a==b) print("Same")
+
+
+```
 
 ## R Basics: Data Types
+
 Like most other programming languages, R has a number of datatypes. We've already looked at numeric data in our previous examples. Other basic data types are:
 - Character
 - Integer (special case of numeric)
@@ -118,6 +131,327 @@ Like most other programming languages, R has a number of datatypes. We've alread
 -- Created using vector() 
 -- Also created using c() function (more common)
 - Matrix: Vector with dimensions
-- List: 
-- Data Frame
+- List: A collection of items, can contain vectors, matrices, or other lists
+- Data Frame: Essentially the R version of a spreadsheet
+-- Can contain a **header row** - the name of each column. These can be set with the colnames() function
+
+## Questions?
+
+Take a ten-minute break
+
+# Dataframe Example: mtcars
+mtcars is a dataset built in to R that 
+
+```{r load_mtcars,echo=TRUE}
+
+df <- mtcars
+str(mtcars)
+head(mtcars)
+
+```
+
+## Dataframe Example: mtcars
+We can look up specific cells in a dataframe in two ways: By number or by the name of the row and column:
+```{r lookup, echo=TRUE}
+df[2,1]
+# This shows us what is in row 2, column 1
+
+```
+```{r lookup_names, echo=TRUE}
+df["Mazda RX4 Wag",'disp']
+# This shows us what the displacement for a Mazda RX4 Wag is
+```
+
+# Manipulating Dataframes
+
+```{r dplyr}
+library(dplyr)
+```
+The dplyr package is a set of tools designed to manipulate dataframes. As you can see from the warnings, it replaces several functions from the base R language (which are designed for time series). You can still use those functions, however, by specifying which package to call the functions from, i.e. stats::filter.
+
+## Manipulating Dataframes
+Let's say we only want to look at 8-cylinder cars:
+
+```{r}
+eight_cyl_cars <- filter(df,cyl==8)
+head(eight_cyl_cars)
+```
+
+Alternatively, we can write that expression like this:
+
+```{r}
+eight_cyl_cars <- df%>%
+  filter(cyl==8)
+
+```
+
+## Manipulating Dataframes: Pipe Operator
+
+The advantage of the pipe operator ( %>% ) is that it allows you to chain multiple operations together. For example, instead of writing:
+
+```{r}
+eight_cyl_cars <- filter(df, cyl == 8)
+eight_cyl_cars <- select(eight_cyl_cars, mpg, hp, disp)
+
+```
+
+We can write it this way:
+```{r}
+eight_cyl_cars_1 <- df %>%
+  filter(cyl == 8)%>%
+  select(mpg, hp, disp)
+
+identical(eight_cyl_cars,eight_cyl_cars_1)
+```
+## Manipulating Dataframes: Pipe Operator
+Advantages:
+- Allows you to extend the same process
+- Reduce copy-paste errors (leaving the initial variable, instead of using intermediate variables)
+- Results in cleaner-looking code that's easier to follow.
+
+Disadvantage:
+- Lack of intermediate variables makes it potentially harder to debug when there's unexpected behavior.
+
+# Visualization
+Visualizing data can be a very powerful tool to initial get an idea of what your dataset looks like. It can give you an idea if you're looking at linear data, exponential growth, or exponential decay, and potentially highlight any missing or anomalous variables. 
+
+## Visualization: Base Graphics
+R has a built-in graphics package.
+```{r}
+plot(y=df$mpg,x=df$hp, ylab = "Miles per Gallon", xlab = "Horsepower")
+```
+
+## Visualization: ggplot
+ggplot is the graphics package that is integrated into the tidyverse. It takes an declarative approach to creating graphics and is based on the book The Grammar of Graphics (which I need to read). Here's an example plot of what we just looked at.
+
+```{r}
+library(ggplot2)
+p <- ggplot(data = df, mapping = aes(x=hp, y=mpg))+
+  geom_point()+
+  labs(x="Horsepower",y="Miles per Gallon")
+p
+
+```
+
+## Visualization: ggplot
+We're also able to layer more information on the same plot. For example, color-coding points based on whether a car is manual (1) or automatic (0) transmission
+```{r}
+p <- ggplot(data = df, mapping = aes(x=hp, y=mpg))+
+  geom_point(aes(color=vs))+
+  labs(x="Horsepower",y="Miles per Gallon")
+p
+```
+
+
+## Questions?
+
+# R Functions
+We've already used a lot of functions, written by other people. But R also allows you to write your own functions.
+
+Functions are an excellent way to avoid having to copy the same piece of code multiple times in the same project. Generally, if you find yourself reusing the same sets of code multiple times, you should write a function.
+
+```{r}
+add_multiply <- function(x,y,z){
+  var <- x+y
+  output <- var*z
+  return(output)
+}
+
+add_multiply(1,2,3)
+
+```
+
+
+## R Functions: Recursive Functions
+Functions are also able to call themselves. Example:
+```{r recursive}
+Factorial <- function(N)
+{
+if (N == 0)
+return(1)
+else
+return( N * Factorial (N-1))
+}
+
+```
+
+## Questions?
+
+Take a ten minute break
+
+# R for Data Analysis
+This is why we're here today.
+
+Data analysis in R breaks down into three main categories:
+- Data processing
+- Regression
+- Classification
+
+## R for Data Analysis: Data Processing
+Dataset: National-level data from World Bank. Contains the following fields:
+-iso2c iso3c Two- and Three-letter codes for each country, assigned by the International Organization for Standardization.
+- country Country name.
+- year
+- gdp_percap Gross Domestic Product per capita in current international dollars, corrected for purchasing power in different territories.
+- life_expect Life expectancy at birth, in years.
+- population Estimated total population at mid-year, including all residents apart from refugees.
+- birth_rate Live births during the year per 1,000 people, based on mid-year population estimate.
+- neonat_mortal_rate Neonatal mortality rate: babies dying before reaching 28 days of age, per 1,000 live births in a given year.
+- region income World Bank regions and income groups
+```{r}
+df <- read.csv("nations.csv")
+```
+
+## R for Data Analysis: Examine Data
+Like we did earlier, let's take a look at the structure of the data:
+
+```{r}
+str(df)
+```
+
+## R for Data Analysis: Summary Statistics
+
+And some summary statistics for that data:
+```{r}
+library(psych)
+describe(df)
+```
+
+## R for Data Analysis: Changing Data Types
+If you need to change the data type for any column, use the following functions:
+
+- as.character converts to a text string.
+- as.numeric converts to a number that can include decimal fractions.
+- as.factor converts to a categorical variable.
+- as.integer converts to an integer.
+- as.Date converts to a date.
+- as.POSIXct converts to a full date and timestamp.
+
+## R for Data Analysis: Changing Data Types
+Let's change the data type for population and income:
+
+```{r}
+#convert population to numeric
+df$population <- as.numeric(df$population)
+
+#convert income to factor
+df$income <- as.factor(df$income)
+
+#convert region to factor
+df$region <- as.factor(df$region)
+
+str(df)
+
+```
+
+## R for Data Analysis: Selecting Relvant Information
+
+We can filter and sort data to look at the countries with the lowest life expectancy. Later, we'll also see if high income and region is correlated with life expectancy. We'll only look at the most recent year on record (2016) and remove any countries where we don't have life expectancy data. 
+
+```{r}
+longest_lived <- df%>%
+  filter(year == 2016 & !is.na(life_expect))%>%
+  select(country, life_expect,gdp_percap,income,region)%>%
+  arrange(life_expect)
+head(longest_lived)
+```
+## R for Data Analysis: Adding data
+We can also calculate each country's ranking in terms of life expectancy by adding a new column:
+
+```{r}
+longest_lived_1 <- longest_lived%>%
+  mutate(life_rank = rank(desc(life_expect)))%>%
+  arrange(life_rank)
+head(longest_lived_1)
+
+```
+
+## R for Data Analysis: Grouping and Summarizing
+We may also be interested in how life expectancy has changed over time. One potential issue with our data here is that we don't have data for every country, in every year, so we'll want to know how many countries are included. If it changes by a large number, we may need to decide whether that year is a good data point. If one or two countries are added or dropped, this may not be an issue.
+```{r}
+
+life_expect_summary <- df %>%
+  #Drop all rows with an NA for life_expect
+  filter(!is.na(life_expect))%>%
+  group_by(year)%>%
+  # Start summary
+  summarize(countries = n(), # count number of countries per year
+            avg_life_expect = mean(life_expect), #average life expectancy
+            max_life_expect = max(life_expect), # maximium life expectancy 
+            min_life_expect = min(life_expect)  # minimum life expectancy
+            )%>%
+  mutate(range_life = max_life_expect - min_life_expect)%>%
+  arrange(desc(year))
+head(life_expect_summary)
+```
+
+## R for Data Analysis: Visualization
+Let's take a look at average life expectancy over time.
+```{r}
+p <- ggplot(data = life_expect_summary)+
+  geom_point(mapping = aes(x=year, y=avg_life_expect))+
+  labs(x="Year",y="Years of Life Expectancy")
+p
+```
+
+## R for Data Analysis: Visualization
+Lets add upper and lower bounds to this plot:
+```{r}
+p <- ggplot(data = life_expect_summary)+
+  geom_point(mapping = aes(x=year, y=avg_life_expect))+
+  labs(x="Year",y="Years of Life Expectancy")+
+  geom_line(aes(x=year,y=min_life_expect))+
+  geom_line(aes(x=year,y=max_life_expect))
+p
+
+```
+
+# R for Regression
+Everyone should be familiar with the math / concepts behind this, so let's just show to do this in R. We first need to remove NAs from the dataset, however. We should also only look at one year, so we'll filter down to 2016 again. 
+
+```{r}
+df <- df%>%
+  filter(!is.na(life_expect) & !is.na(gdp_percap) & year==2016)
+life_gdp_regression <- lm(life_expect~gdp_percap,df)
+summary(life_gdp_regression)
+
+```
+## R for Regression: Exponential data
+But wait, per capita GDP is likely to not be linear. There's a chance that taking the log of per capita GDP is going to better describe the data. We can do that directly in the formula.
+```{r}
+
+life_log_gdp_regression <- lm(life_expect~log(gdp_percap),df)
+summary(life_log_gdp_regression)
+
+```
+
+## R for Regression: Factors
+Sometimes, categorical data can explain continuous responses. Recall that our Region grouping is a factor. We need to use a different formula (glm) for this.
+```{r}
+
+region_life_regression <- glm(life_expect~region,data = df)
+summary(region_life_regression)
+
+```
+
+## R for Regression: Multivariate regression
+Sometimes, more than one factor may be at play and an important driver of the response variable. For numerical data, we can use the usual lm() function. Let's return to the mtcars dataset.
+
+```{r}
+mpg_regression <- lm(mpg~hp,data=mtcars)
+summary(mpg_regression)
+
+```
+A second variable may help explain mpg better than just one:
+```{r}
+mpg_regression <- lm(mpg~hp+wt,data=mtcars)
+summary(mpg_regression)
+
+```
+
+## R for Regression: Considerations
+- Don't always throw more variables at a problem. Add and remove them to see.
+- Be wary of overfitting.
+- Judge what should be used as a continuous variable v. discrete (factor) variable.
+- Correlation v. causation: In the life expectancy example, does a specific region **cause** longer/shorter life, or are there other hidden common factors?
 
