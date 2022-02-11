@@ -17,8 +17,7 @@ In this half of the workshop, we'll be working individually or in small groups o
 If you are using the git repo, the files are in the datasets folder and can be loaded using the code below. If not, modify it to load the data yourself.
 
 ```{r load_data}
-red_df <- read.csv('datasets/winequality-red.csv')
-white_df <- read.csv('datasets/winequality-white.csv')
+df <- read.csv('datasets/winequality_edited.csv')
 
 
 ```
